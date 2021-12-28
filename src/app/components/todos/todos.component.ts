@@ -18,9 +18,12 @@ export class TodosComponent implements OnInit {
   ngOnInit(): void {}
 
   addTodo() {
+    
     if (this.inputTodo == '') {
       alert("Can't leave the field empty");
-    } else {
+    }else if (this.inputTodo.length >= 20){
+      alert("The character length cannot be greater than 20");
+    }else{
       this.todos.push({
         content: this.inputTodo,
         completed: false,
