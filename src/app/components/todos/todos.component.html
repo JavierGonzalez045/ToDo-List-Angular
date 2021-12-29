@@ -28,7 +28,8 @@
 
     <div class="id">{{ i + 1 }}</div>
     <div class="content">
-      Task Name: {{ todo.content }} Due Date: {{ todo.duedate }}
+      Task Name: {{ todo.content }} Due Date:
+      {{ todo.duedate ? todo.duedate : "You should insert date" }}
       <div class="status">
         {{
           todo.canceled

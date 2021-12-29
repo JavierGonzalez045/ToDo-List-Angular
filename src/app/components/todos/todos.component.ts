@@ -16,8 +16,6 @@ export class TodosComponent implements OnInit {
 
   inputDate!: Date;
 
-  samenametask: string = this.inputTodo;
-
   constructor() {}
 
   ngOnInit(): void {}
@@ -30,7 +28,6 @@ export class TodosComponent implements OnInit {
     } else if (
       this.todos.filter((data) => data.content === this.inputTodo).length > 0
     ) {
-      console.log(this.todos.filter((data) => data.content != this.inputTodo));
       alert('Cannot insert the same task name!');
     } else {
       this.todos.push({
@@ -44,8 +41,8 @@ export class TodosComponent implements OnInit {
 
   disablecancel(index: number) {
     this.todos.splice(index, 1, {
-      content: this.inputTodo,
-      duedate: this.inputDate,
+      content: this.todos[index].content,
+      duedate: this.todos[index].duedate,
       completed: true,
       canceled: true,
     });
@@ -53,8 +50,8 @@ export class TodosComponent implements OnInit {
 
   disablecomplete(index: number) {
     this.todos.splice(index, 1, {
-      content: this.inputTodo,
-      duedate: this.inputDate,
+      content: this.todos[index].content,
+      duedate: this.todos[index].duedate,
       completed: true,
       canceled: false,
     });
