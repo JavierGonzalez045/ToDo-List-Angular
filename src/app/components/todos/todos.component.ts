@@ -2,7 +2,7 @@ import { style } from '@angular/animations';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
 import { Todo } from './../../models/Todo';
-import { empty, isEmpty } from 'rxjs';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -14,8 +14,8 @@ export class TodosComponent implements OnInit {
 
   inputTodo: string = '';
 
-  inputDate!: Date;
-
+  inputDate?: Date;
+  
   constructor() {}
 
   ngOnInit(): void {}
@@ -25,6 +25,8 @@ export class TodosComponent implements OnInit {
       alert("Can't leave the field empty");
     } else if (this.inputTodo.startsWith(' ')) {
       alert("Can't use WhiteSpace");
+    } else if (this.inputTodo.length >= 20) {
+      alert('The character length cannot be greater than 20');
     } else if (
       this.todos.filter((data) => data.content === this.inputTodo).length > 0
     ) {

@@ -5,7 +5,7 @@
       name="inputTodo"
       placeholder="Insert task name..."
       class="todo-input"
-      [maxlength]="30"
+      maxlength="30"
       [(ngModel)]="inputTodo"
     />
     <br />
@@ -17,15 +17,9 @@
       class="todo-input"
       [(ngModel)]="inputDate"
     />
-    <input type="submit" value="Add Todo" class="todo-submit" />
+    <input type="submit" value="Add Todo" class="todo-submit" [disabled]='!inputDate' />
   </form>
-  <div
-  *ngFor="let todo of todos; let i = index"
-    class="todo{{ todo.completed ? 'done' : '' }}"
-  >
-
   <div *ngFor="let todo of todos; let i = index" class="todo">
-
     <div class="id">{{ i + 1 }}</div>
     <div class="content">
       Task Name: {{ todo.content }} Due Date:
