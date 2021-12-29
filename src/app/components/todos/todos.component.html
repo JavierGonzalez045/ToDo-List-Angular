@@ -7,10 +7,12 @@
       class="todo-input"
       [(ngModel)]="inputTodo"
     />
+    <br />
+    <br />
+    <label class="lbldudate"><strong>Insert Due Date:</strong></label>
     <input
       type="date"
       name="inputDate"
-      placeholder="Insert due date..."
       class="todo-input"
       [(ngModel)]="inputDate"
     />
@@ -19,7 +21,7 @@
   <div *ngFor="let todo of todos; let i = index" class="todo">
     <div class="id">{{ i + 1 }}</div>
     <div class="content">
-      {{ todo.content }} {{ todo.duedate }}
+      Task Name: {{ todo.content }} Due Date: {{ todo.duedate }}
       <div class="status">
         {{
           todo.canceled

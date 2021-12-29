@@ -2,6 +2,7 @@ import { style } from '@angular/animations';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
 import { Todo } from './../../models/Todo';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -15,6 +16,8 @@ export class TodosComponent implements OnInit {
 
   inputDate?: Date;
 
+  samenametask: string = this.inputTodo;
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -26,6 +29,11 @@ export class TodosComponent implements OnInit {
       alert("Can't use WhiteSpace");
     } else if (this.inputTodo.length >= 20) {
       alert('The character length cannot be greater than 20');
+    } else if (
+      this.todos.filter((data) => data.content === this.inputTodo).length > 0
+    ) {
+      console.log(this.todos.filter((data) => data.content != this.inputTodo));
+      alert('Cannot insert the same task name!');
     } else {
       this.todos.push({
         content: this.inputTodo,
