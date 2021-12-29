@@ -4,4 +4,5 @@ export interface Todo {
   disable?: boolean;
   canceled?: boolean;
   status?: string;
+  duedate?: Date;
 }

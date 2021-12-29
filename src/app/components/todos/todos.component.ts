@@ -13,6 +13,8 @@ export class TodosComponent implements OnInit {
 
   inputTodo: string = '';
 
+  inputDate?: Date;
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -29,6 +31,7 @@ export class TodosComponent implements OnInit {
         content: this.inputTodo,
         completed: false,
         canceled: false,
+        duedate: this.inputDate,
       });
     }
   }
@@ -36,6 +39,7 @@ export class TodosComponent implements OnInit {
   disablecancel(index: number) {
     this.todos.splice(index, 1, {
       content: this.inputTodo,
+      duedate: this.inputDate,
       completed: true,
       canceled: true,
     });
@@ -44,6 +48,7 @@ export class TodosComponent implements OnInit {
   disablecomplete(index: number) {
     this.todos.splice(index, 1, {
       content: this.inputTodo,
+      duedate: this.inputDate,
       completed: true,
       canceled: false,
     });
