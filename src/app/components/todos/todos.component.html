@@ -1,0 +1,37 @@
+<div class="todos">
+  <form (submit)="addTodo()">
+    <input
+      type="text"
+      name="inputTodo"
+      placeholder="Insert task name..."
+      class="todo-input"
+      [(ngModel)]="inputTodo"
+    />
+    <input type="submit" value="Add Todo" class="todo-submit" />
+  </form>
+  <div
+    *ngFor="let todo of todos; let i = index"
+    class="todo{{ todo.completed ? 'done' : '' }}"
+  >
+    <div class="id">{{ i + 1 }}</div>
+    <div class="content">
+      {{ todo.content }}
+      <div class="status">{{ status }}</div>
+    </div>
+
+    <button
+      class="canceled"
+      [disabled]="todo.disable"
+      (click)="disablecancel(i)"
+    >
+      Canceled
+    </button>
+    <button
+      class="completed"
+      [disabled]="todo.disable"
+      (click)="disablecomplete(i)"
+    >
+      Completed
+    </button>
+  </div>
+</div>
