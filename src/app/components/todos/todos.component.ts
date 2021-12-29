@@ -2,7 +2,6 @@ import { style } from '@angular/animations';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
 import { Todo } from './../../models/Todo';
-// import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-todos',
@@ -13,7 +12,6 @@ export class TodosComponent implements OnInit {
   todos = new Array<Todo>();
 
   inputTodo: string = '';
-  status: string = 'In Progress';
 
   constructor() {}
 
@@ -22,6 +20,8 @@ export class TodosComponent implements OnInit {
   addTodo() {
     if (this.inputTodo == '') {
       alert("Can't leave the field empty");
+    } else if (this.inputTodo.startsWith(' ')) {
+      alert("Can't use WhiteSpace");
     } else if (this.inputTodo.length >= 20) {
       alert('The character length cannot be greater than 20');
     } else {
@@ -36,7 +36,7 @@ export class TodosComponent implements OnInit {
   disablecancel(index: number) {
     this.todos.splice(index, 1, {
       content: this.inputTodo,
-      completed: false,
+      completed: true,
       canceled: true,
     });
   }
