@@ -84,7 +84,8 @@
   color: #6d6d6dcc;
 }
 
-/* .canceled {
+/* 
+.canceled {
   display: block;
   width: 120px;
   height: 40px;
@@ -110,10 +111,9 @@
   outline: none;
   background: none;
   background-color: #ff000080;
-  color: white;
+  color: #fff;
   margin: 15px auto;
-  margin-right: 10px;
-  padding: 10px 15px;
+  padding: 10px;
   font-size: 14px;
   font-weight: 700;
 }

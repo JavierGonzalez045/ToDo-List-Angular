@@ -34,12 +34,18 @@ export class TodosComponent implements OnInit {
   }
 
   disablecancel(index: number) {
-    this.todos[index].disable = true;
-    this.status = 'Canceled';
+    this.todos.splice(index, 1, {
+      content: this.inputTodo,
+      completed: false,
+      canceled: true,
+    });
   }
 
   disablecomplete(index: number) {
-    this.todos[index].disable = true;
-    this.status = 'Completed';
+    this.todos.splice(index, 1, {
+      content: this.inputTodo,
+      completed: true,
+      canceled: false,
+    });
   }
 }

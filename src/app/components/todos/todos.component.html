@@ -9,26 +9,31 @@
     />
     <input type="submit" value="Add Todo" class="todo-submit" />
   </form>
-  <div
-    *ngFor="let todo of todos; let i = index"
-    class="todo{{ todo.completed ? 'done' : '' }}"
-  >
+  <div *ngFor="let todo of todos; let i = index" class="todo">
     <div class="id">{{ i + 1 }}</div>
     <div class="content">
       {{ todo.content }}
-      <div class="status">{{ status }}</div>
+      <div class="status">
+        {{
+          todo.canceled
+            ? "Canceled"
+            : todo.completed
+            ? "Completed"
+            : "In Progress"
+        }}
+      </div>
     </div>
 
     <button
       class="canceled"
-      [disabled]="todo.disable"
+      [disabled]="todo.canceled"
       (click)="disablecancel(i)"
     >
       Canceled
     </button>
     <button
       class="completed"
-      [disabled]="todo.disable"
+      [disabled]="todo.completed"
       (click)="disablecomplete(i)"
     >
       Completed
