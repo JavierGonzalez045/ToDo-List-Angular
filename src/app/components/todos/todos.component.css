@@ -88,6 +88,14 @@
   margin-left: 15px;
 }
 
+.alert-danger{
+  padding: 10px 10px;
+  font-size: 15px;
+  background-color: rgba(248, 215, 218, 1);
+  border-color: rgba(220, 53, 69, 1);
+  color: rgba(114, 28, 36,1);
+}
+
 /* 
 .canceled {
   display: block;

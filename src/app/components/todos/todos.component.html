@@ -6,6 +6,7 @@
       placeholder="Insert task name..."
       class="todo-input"
       maxlength="30"
+      onkeypress="return blockSpecialChar(event)"
       [(ngModel)]="inputTodo"
     />
     <br />
@@ -17,6 +18,7 @@
       class="todo-input"
       [(ngModel)]="inputDate"
     />
+    <div class="alert alert-danger" *ngIf="!inputDate">A date is required</div>
     <input type="submit" value="Add Todo" class="todo-submit" [disabled]='!inputDate' />
   </form>
   <div *ngFor="let todo of todos; let i = index" class="todo">
