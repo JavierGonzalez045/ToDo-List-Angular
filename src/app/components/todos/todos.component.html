@@ -6,7 +6,6 @@
       placeholder="Insert task name..."
       class="todo-input"
       maxlength="30"
-      onkeypress="return blockSpecialChar(event)"
       [(ngModel)]="inputTodo"
     />
     <br />
@@ -41,13 +40,16 @@
       class="canceled"
       [disabled]="todo.canceled"
       (click)="disablecancel(i)"
+      [disabled] = 'todo.completed'
     >
       Canceled
     </button>
+
     <button
       class="completed"
       [disabled]="todo.completed"
       (click)="disablecomplete(i)"
+      
     >
       Completed
     </button>

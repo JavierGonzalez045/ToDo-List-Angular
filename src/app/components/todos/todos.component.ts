@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Todo } from './../../models/Todo';
 import { empty } from 'rxjs';
 
+
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
@@ -38,10 +39,6 @@ export class TodosComponent implements OnInit {
       });
     }
   }
-  blockSpecialChar(e: { keyCode: any; }) {
-    var k = e.keyCode;
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8   || (k >= 48 && k))
-    }
   disablecancel(index: number) {
     this.todos.splice(index, 1, {
       content: this.todos[index].content,
