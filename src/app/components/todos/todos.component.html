@@ -1,15 +1,40 @@
 <div class="todos">
-  <form (submit)="addTodo()">
+  <form [formGroup]="profileForm" (ngSubmit)="onSum()">
     <input
+      id="task-name"
       type="text"
-      name="inputTodo"
       placeholder="Insert task name..."
-      class="todo-input"
-      maxlength="30"
-      [(ngModel)]="inputTodo"
+      formControlName="taskName"
+      
     />
-    <br />
-    <br />
+    <div class="alert alert-danger" *ngIf= "!taskName?.valid">Name is required</div>
+    <br /><br />
+    <label class="lbldudate"><strong>Insert Due Date:</strong></label>
+    <br /><br />
+    <input 
+    id="due-date" 
+    type="date" 
+    formControlName="dueDate" />
+    <div class="alert alert-danger" *ngIf= "!dueDate?.valid">Date is required</div>
+    <br /><br />
+    <button type="submit" [disabled]="!taskName?.valid && !dueDate?.valid" >Add Todo List</button>
+  </form>
+  
+  <div *ngFor="let todos of todo; let i = index">
+    <a>
+      {{ i + 1 }}
+      {{ todos.taskName }}
+      {{ todos.dueDate }}
+      <button>Cancel</button>
+      <button>Complete</button>
+    </a>
+  </div>
+     <!--
+        class="todo-input"
+        maxlength="30"
+        [(ngModel)]="inputTodo"
+      -->
+    <!--
     <label class="lbldudate"><strong>Insert Due Date:</strong></label>
     <input
       type="date"
@@ -27,7 +52,7 @@
       {{ todo.duedate ? todo.duedate : "You should insert date" }}
       <div class="status">
         {{
-          todo.canceled
+            todo.canceled
             ? "Canceled"
             : todo.completed
             ? "Completed"
@@ -35,7 +60,8 @@
         }}
       </div>
     </div>
-
+    -->
+<!--
     <button
       class="canceled"
       [disabled]="todo.canceled"
@@ -55,3 +81,4 @@
     </button>
   </div>
 </div>
+-->

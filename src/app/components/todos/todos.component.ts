@@ -1,8 +1,12 @@
 import { style } from '@angular/animations';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
 import { Todo } from './../../models/Todo';
 import { empty } from 'rxjs';
+import { invalid } from '@angular/compiler/src/render3/view/util';
+
 
 
 @Component({
@@ -10,17 +14,46 @@ import { empty } from 'rxjs';
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
 })
-export class TodosComponent implements OnInit {
-  todos = new Array<Todo>();
+export class TodosComponent {
+  
+  profileForm = new FormGroup({
+    taskName: new FormControl('',[Validators.required]),
+    dueDate: new FormControl(this.formatDate(new Date()),[Validators.required]),
+  });
 
-  inputTodo: string = '';
+  todo: Array<any> = [];
 
-  inputDate?: Date;
+  constructor(private fb: FormBuilder) {}
+  onSum() {
+     console.warn(this.profileForm.value.taskName);
+     console.warn(this.profileForm.value.dueDate);
+    if (this.formatDate(new Date()) <= this.profileForm.value.dueDate) {
+      if (this.todo.length === 0) {
+        this.todo = [this.profileForm.value];
+      } 
+      else 
+      {
+        this.todo = [...this.todo, this.profileForm.value];
+      }
+    } else {
+      alert("Can't enter past dates");
+    } 
+  }
+  private formatDate(date: Date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+  get taskName(){return this.profileForm.get('taskName')}
+  get dueDate(){return this.profileForm.get('dueDate')}
+}
 
-  constructor() {}
 
-  ngOnInit(): void {}
-
+/*
   addTodo() {
     if (this.inputTodo == '' ) {
       alert("Can't leave the field empty");
@@ -39,11 +72,13 @@ export class TodosComponent implements OnInit {
       });
     }
   }
+  */
+ /*
   disablecancel(index: number) {
     this.todos.splice(index, 1, {
       content: this.todos[index].content,
       duedate: this.todos[index].duedate,
-      completed: true,
+      completed: true ,
       canceled: true,
     });
   }
@@ -57,3 +92,4 @@ export class TodosComponent implements OnInit {
     });
   }
 }
+*/  
