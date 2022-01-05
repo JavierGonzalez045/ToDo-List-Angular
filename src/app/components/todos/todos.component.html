@@ -1,13 +1,16 @@
 <div class="todos">
   <form [formGroup]="profileForm" (ngSubmit)="onSum()">
+    <label class="lbltname"><strong>Insert Task Name:</strong></label>
+    <br /><br />
     <input
+      class="taskBox"
       id="task-name"
       type="text"
       placeholder="Insert task name..."
       formControlName="taskName"
-      
     />
     <div class="alert alert-danger" *ngIf= "!taskName?.valid && taskName?.hasError('whitespace')">Name is required</div>
+    <div class="alert alert-danger" *ngIf= "taskName && taskName.hasError('maxlength')">Name exceed max length</div>
     <br /><br />
     <label class="lbldudate"><strong>Insert Due Date:</strong></label>
     <br /><br />
@@ -17,7 +20,7 @@
     formControlName="dueDate" />
     <div class="alert alert-danger" *ngIf= "!dueDate?.valid">Date is required</div>
     <br /><br />
-    <button type="submit" [disabled]="!taskName?.valid && taskName?.hasError('whitespace')" >Add Todo List</button>
+    <button type="submit" [disabled]="!taskName?.valid && taskName?.hasError('whitespace') ||taskName && taskName.hasError('maxlength')" >Add Todo List</button>
   </form>
   
   <div *ngFor="let todos of todo; let i = index">

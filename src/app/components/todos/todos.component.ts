@@ -8,7 +8,6 @@ import { empty } from 'rxjs';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 
 
-
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
@@ -17,7 +16,7 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
 export class TodosComponent {
   
   profileForm = new FormGroup({
-    taskName: new FormControl('',[Validators.required, this.noWhitespace]),
+    taskName: new FormControl('',[Validators.required, this.noWhitespace,Validators.maxLength(10)]),
     dueDate: new FormControl(this.formatDate(new Date()),[Validators.required]),
   });
 
@@ -25,6 +24,11 @@ export class TodosComponent {
 
   constructor(private fb: FormBuilder) {}
   onSum() {
+    if(this.profileForm.value.taskName.length >= 20){
+      alert("Max Lenght se paso");
+
+    }
+
     if (this.formatDate(new Date()) <= this.profileForm.value.dueDate) {
       if (this.todo.length === 0) {
         this.todo = [this.profileForm.value];
@@ -35,6 +39,7 @@ export class TodosComponent {
       }
     } else {
       alert("Can't enter past dates");
+
     } 
   }
   private formatDate(date: Date) {
@@ -46,9 +51,7 @@ export class TodosComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
-
-
-//---------------------------------------------------------------Validators---------------------------------------------------------------------
+  //---------------------------------------------------------------Validators---------------------------------------------------------------------
   get taskName(){return this.profileForm.get('taskName')}
   get dueDate(){return this.profileForm.get('dueDate')
   }
@@ -57,7 +60,6 @@ export class TodosComponent {
     let isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true }
 }
-
 }
 
 
