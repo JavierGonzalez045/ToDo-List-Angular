@@ -2,7 +2,7 @@ import { style } from '@angular/animations';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, ControlContainer, ValidationErrors } from '@angular/forms';
 import { Todo } from './../../models/Todo';
 import { empty } from 'rxjs';
 import { invalid } from '@angular/compiler/src/render3/view/util';
@@ -17,7 +17,7 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
 export class TodosComponent {
   
   profileForm = new FormGroup({
-    taskName: new FormControl('',[Validators.required]),
+    taskName: new FormControl('',[Validators.required, this.noWhitespace]),
     dueDate: new FormControl(this.formatDate(new Date()),[Validators.required]),
   });
 
@@ -25,8 +25,6 @@ export class TodosComponent {
 
   constructor(private fb: FormBuilder) {}
   onSum() {
-     console.warn(this.profileForm.value.taskName);
-     console.warn(this.profileForm.value.dueDate);
     if (this.formatDate(new Date()) <= this.profileForm.value.dueDate) {
       if (this.todo.length === 0) {
         this.todo = [this.profileForm.value];
@@ -48,9 +46,20 @@ export class TodosComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
+
+
+//---------------------------------------------------------------Validators---------------------------------------------------------------------
   get taskName(){return this.profileForm.get('taskName')}
-  get dueDate(){return this.profileForm.get('dueDate')}
+  get dueDate(){return this.profileForm.get('dueDate')
+  }
+  public noWhitespace(control: FormControl) {
+    let isWhitespace = (control.value || '').trim().length === 0;
+    let isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true }
 }
+
+}
+
 
 
 /*
