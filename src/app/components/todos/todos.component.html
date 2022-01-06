@@ -8,6 +8,7 @@
       type="text"
       placeholder="Insert task name..."
       formControlName="taskName"
+      
     />
     <div class="alert alert-danger" *ngIf= "taskName?.hasError('required') || taskName?.hasError('whitespace')">Name is required</div>
     <div class="alert alert-danger" *ngIf= "taskName && taskName.hasError('maxlength')">Name exceed max length</div>
@@ -26,7 +27,7 @@
   
   <div *ngFor="let todos of todo; let i = index">
     <div class="content">
-      <p>Task Name: {{ todos.taskName }} Due Date: {{ todos.dueDate }}</p>
+      <p>Task Name: {{ todos.taskName.toLowerCase() }} Due Date: {{ todos.dueDate }}</p>
       <div class="status">{{todos.status }}</div>
     </div>
 
@@ -41,7 +42,7 @@
 
     <button class="completed"
     (click)="CompletedTask(todos,i)"
-    [disabled]="todos.completed"
+    [disabled] = 'todos.completed'
     >
     Complete
   </button>
