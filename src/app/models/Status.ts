@@ -1,5 +1,11 @@
-export enum status {
-    pending = 1,
-    canceled = 2,
-    completed = 3,
-  }
+
+export enum Status {
+  pending = "Pending",
+  canceled = "Canceled",
+  completed = "Completed",
+}
+
+export let Taskstatus: Status;
+ Taskstatus = Status.pending;
+ export const StatusCanceled =  Status.canceled
+ export const StatusCompleted=  Status.completed

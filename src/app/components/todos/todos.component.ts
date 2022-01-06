@@ -3,7 +3,7 @@ import { Content } from '@angular/compiler/src/render3/r3_ast';
 import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ControlContainer, ValidationErrors } from '@angular/forms';
-import { Todo } from './../../models/Todo';
+import { Status } from 'src/app/models/Status';
 import { empty } from 'rxjs';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 
@@ -13,22 +13,18 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
 })
-export class TodosComponent {
-  
+export class TodosComponent {   
   profileForm = new FormGroup({
-    taskName: new FormControl('',[Validators.required, this.noWhitespace,Validators.maxLength(10)]),
+    taskName: new FormControl('',[Validators.required, this.noWhitespace,Validators.maxLength(20)]),
     dueDate: new FormControl(this.formatDate(new Date()),[Validators.required]),
+    status: new FormControl(Status.pending),
   });
-
   todo: Array<any> = [];
+  
 
   constructor(private fb: FormBuilder) {}
   onSum() {
-    if(this.profileForm.value.taskName.length >= 20){
-      alert("Max Lenght se paso");
-
-    }
-
+  
     if (this.formatDate(new Date()) <= this.profileForm.value.dueDate) {
       if (this.todo.length === 0) {
         this.todo = [this.profileForm.value];
@@ -39,7 +35,6 @@ export class TodosComponent {
       }
     } else {
       alert("Can't enter past dates");
-
     } 
   }
   private formatDate(date: Date) {
@@ -53,17 +48,17 @@ export class TodosComponent {
   }
   //---------------------------------------------------------------Validators---------------------------------------------------------------------
   get taskName(){return this.profileForm.get('taskName')}
-  get dueDate(){return this.profileForm.get('dueDate')
-  }
+  get dueDate(){return this.profileForm.get('dueDate')}
+  get status(){return this.profileForm.get('status')}
+
   public noWhitespace(control: FormControl) {
     let isWhitespace = (control.value || '').trim().length === 0;
     let isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true }
 }
+CanceledTask(){
+
 }
-
-
-
 /*
   addTodo() {
     if (this.inputTodo == '' ) {
@@ -103,4 +98,4 @@ export class TodosComponent {
     });
   }
 }
-*/  
+*/ } 

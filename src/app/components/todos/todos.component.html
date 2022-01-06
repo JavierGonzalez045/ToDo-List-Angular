@@ -9,7 +9,7 @@
       placeholder="Insert task name..."
       formControlName="taskName"
     />
-    <div class="alert alert-danger" *ngIf= "!taskName?.valid && taskName?.hasError('whitespace')">Name is required</div>
+    <div class="alert alert-danger" *ngIf= "taskName?.hasError('required') || taskName?.hasError('whitespace')">Name is required</div>
     <div class="alert alert-danger" *ngIf= "taskName && taskName.hasError('maxlength')">Name exceed max length</div>
     <br /><br />
     <label class="lbldudate"><strong>Insert Due Date:</strong></label>
@@ -18,21 +18,27 @@
     id="due-date" 
     type="date" 
     formControlName="dueDate" />
+
     <div class="alert alert-danger" *ngIf= "!dueDate?.valid">Date is required</div>
     <br /><br />
-    <button type="submit" [disabled]="!taskName?.valid && taskName?.hasError('whitespace') ||taskName && taskName.hasError('maxlength')" >Add Todo List</button>
+    <button type="submit" [disabled]="taskName?.hasError('whitespace') || taskName && taskName.hasError('maxlength')" >Add Todo List</button>
   </form>
   
   <div *ngFor="let todos of todo; let i = index">
-    <a>
-      {{ i + 1 }}
-      {{ todos.taskName }}
-      {{ todos.dueDate }}
-      <button>Cancel</button>
-      <button>Complete</button>
-    </a>
+    <div class="id">
+      <p class="task-id">Id# {{ i + 1 }}</p>
+    </div>
+    <div class="content">
+      <p>Task Name: {{ todos.taskName }}</p>
+      <p>Due Date: {{ todos.dueDate }}</p>
+      {{ todos.status }}
+    </div>
+    <button>Cancel</button>
+    <button>Complete</button>
   </div>
-     <!--
+ 
+  
+  <!--
         class="todo-input"
         maxlength="30"
         [(ngModel)]="inputTodo"
@@ -55,7 +61,7 @@
       {{ todo.duedate ? todo.duedate : "You should insert date" }}
       <div class="status">
         {{
-            todo.canceled
+            Status.canceled
             ? "Canceled"
             : todo.completed
             ? "Completed"
