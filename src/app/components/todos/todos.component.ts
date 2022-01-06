@@ -14,6 +14,7 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
   styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent {   
+  
   profileForm = new FormGroup({
     taskName: new FormControl('',[Validators.required, this.noWhitespace,Validators.maxLength(20)]),
     dueDate: new FormControl(this.formatDate(new Date()),[Validators.required]),
@@ -56,9 +57,31 @@ export class TodosComponent {
     let isValid = !isWhitespace;
     return isValid ? null : { 'whitespace': true }
 }
-CanceledTask(){
-
+CanceledTask(arr:any, index: number){
+  console.log(arr,index)
+  
+  this.todo.splice(index, 1, {
+    taskName : arr.taskName,
+    dueDate : arr.dueDate,
+    status : Status.canceled,
+    completed: true,
+    canceled: true,
+  });
+ 
+  
 }
+CompletedTask(arr:any, index: number){
+
+  this.todo.splice(index, 1, {
+    taskName : arr.taskName,
+    dueDate : arr.dueDate,
+    status : Status.completed,
+    completed: true,
+    canceled: false,
+  });
+   
+}
+    
 /*
   addTodo() {
     if (this.inputTodo == '' ) {
@@ -84,7 +107,7 @@ CanceledTask(){
     this.todos.splice(index, 1, {
       content: this.todos[index].content,
       duedate: this.todos[index].duedate,
-      completed: true ,
+      completed: true,
       canceled: true,
     });
   }
@@ -98,4 +121,4 @@ CanceledTask(){
     });
   }
 }
-*/ } 
+*/ }

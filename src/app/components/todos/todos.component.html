@@ -25,22 +25,31 @@
   </form>
   
   <div *ngFor="let todos of todo; let i = index">
-    <div class="id">
-      <p class="task-id">Id# {{ i + 1 }}</p>
-    </div>
     <div class="content">
-      <p>Task Name: {{ todos.taskName }}</p>
-      <p>Due Date: {{ todos.dueDate }}</p>
-      {{ todos.status }}
+      <p>Task Name: {{ todos.taskName }} Due Date: {{ todos.dueDate }}</p>
+      <div class="status">{{todos.status }}</div>
     </div>
-    <button>Cancel</button>
-    <button>Complete</button>
+
+    <button 
+    class="canceled"
+    (click)="CanceledTask(todos,i)"
+    [disabled]="todos.canceled"
+    [disabled] = 'todos.completed'
+    >
+    Cancel
+  </button>
+
+    <button class="completed"
+    (click)="CompletedTask(todos,i)"
+    [disabled]="todos.completed"
+    >
+    Complete
+  </button>
   </div>
  
   
   <!--
         class="todo-input"
-        maxlength="30"
         [(ngModel)]="inputTodo"
       -->
     <!--
