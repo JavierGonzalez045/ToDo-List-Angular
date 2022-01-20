@@ -1,0 +1,155 @@
+.todo {
+  display: flex;
+  padding: 10px 15px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid white;
+}
+.content {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  appearance: none;
+  border: none;
+  background-color: #f3f3f3;
+  margin-top: 15px;
+  font-size: 20px;
+  outline: none;
+}
+
+.todo-submit {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: black;
+  color: #fff;
+  margin: 15px auto;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.todo-submit:hover {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: #858585;
+  color: #fff;
+  margin: 15px auto;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.status {
+  margin-left: 80%;
+  text-align: center;
+  margin-top: -18px;
+  color: #6d6d6dcc;
+}
+.lbltname
+{
+  margin-left: 0px;
+}
+.TaskBox{
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  appearance: none;
+  border: none;
+  background-color: #f3f3f3;
+}
+.lbldudate {
+  margin-left: 0px;
+}
+
+.alert-danger{
+  padding: 10px 10px;
+  font-size: 15px;
+  background-color: rgba(248, 215, 218, 1);
+  border-color: rgba(220, 53, 69, 1);
+  color: rgba(114, 28, 36,1);
+}
+
+/* 
+.canceled {
+  display: block;
+  width: 120px;
+  height: 40px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: red;
+  color: #fff;
+  margin: 15px auto;
+  margin-right: 10px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.canceled:hover {
+  display: block;
+  width: 120px;
+  height: 40px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: #ff000080;
+  color: #fff;
+  margin: 15px auto;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.completed {
+  display: block;
+  width: 120px;
+  height: 40px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: #07a707;
+  color: #fff;
+  margin: 15px auto;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.completed:hover {
+  display: block;
+  width: 120px;
+  height: 40px;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: #07a70780;
+  color: #fff;
+  margin: 15px auto;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+} */
+
+.canceled,
+.completed {
+  width: 120px;
+  height: 40px;
+  margin: 15px auto;
+  padding: 10px;
+  cursor: pointer;
+}

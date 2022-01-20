@@ -1,0 +1,89 @@
+<div class="todos">
+  <form [formGroup]="profileForm" (ngSubmit)="onSum()">
+    <label class="lbltname"><strong>Insert Task Name: </strong></label>
+    <br /><br />
+    <input
+      class="taskBox"
+      id="task-name"
+      type="text"
+      placeholder="Insert task name..."
+      formControlName="taskName"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="taskName?.hasError('required') || taskName?.hasError('whitespace')"
+    >
+      Name is required
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="taskName && taskName.hasError('maxlength')"
+    >
+      Name exceed max length
+    </div>
+    <br /><br />
+    <label class="lbldudate"><strong>Insert Due Date:</strong></label>
+    <br /><br />
+    <input id="due-date" type="date" formControlName="dueDate" />
+
+    <div class="alert alert-danger" *ngIf="!dueDate?.valid">
+      Date is required
+    </div>
+    <br /><br />
+    <button
+      type="submit"
+      [disabled]="
+        taskName?.hasError('whitespace') ||
+        (taskName && taskName.hasError('maxlength'))
+      "
+    >
+      Add Todo List
+    </button>
+  </form>
+
+  <div *ngFor="let todos of todo; let i = index">
+    <div class="content">
+      <p>
+        Task Name: {{ todos.taskName.toLowerCase() }} Due Date:
+        {{ todos.dueDate }}
+      </p>
+      <div class="status">{{ statusToText(todos.status) }}</div>
+    </div>
+
+    <button
+      class="canceled"
+      (click)="CanceledTask(todos, i)"
+      [disabled]="todos.canceled"
+      [disabled]="todos.completed"
+    >
+      Cancel
+    </button>
+
+    <button
+      class="completed"
+      (click)="CompletedTask(todos, i)"
+      [disabled]="todos.completed"
+    >
+      Complete
+    </button>
+  </div>
+
+  <!-- <br /><br /><br />
+  <table class="table table-hover table-bordered table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Task Name</th>
+        <th scope="col">Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <th scope="row">1</th>
+        <td>{{ tasks.taskName }}</td>
+        <td>{{ task.Title }}</td>
+        <td>{{ task.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+</div>
