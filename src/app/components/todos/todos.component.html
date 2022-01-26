@@ -1,103 +1,89 @@
 <div class="todos">
   <form [formGroup]="profileForm" (ngSubmit)="onSum()">
-    <label class="lbltname"><strong>Insert Task Name:</strong></label>
+    <label class="lbltname"><strong>Insert Task Name: </strong></label>
     <br /><br />
     <input
       class="taskBox"
       id="task-name"
       type="text"
       placeholder="Insert task name..."
-      formControlName="taskName"
-      
+      formControlName="title"
     />
-    <div class="alert alert-danger" *ngIf= "taskName?.hasError('required') || taskName?.hasError('whitespace')">Name is required</div>
-    <div class="alert alert-danger" *ngIf= "taskName && taskName.hasError('maxlength')">Name exceed max length</div>
+    <div
+      class="alert alert-danger"
+      *ngIf="title?.hasError('required') || title?.hasError('whitespace')"
+    >
+      Name is required
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="title && title.hasError('maxlength')"
+    >
+      Name exceed max length
+    </div>
     <br /><br />
     <label class="lbldudate"><strong>Insert Due Date:</strong></label>
     <br /><br />
-    <input 
-    id="due-date" 
-    type="date" 
-    formControlName="dueDate" />
+    <input id="due-date" type="date" formControlName="dueDate" />
 
-    <div class="alert alert-danger" *ngIf= "!dueDate?.valid">Date is required</div>
-    <br /><br />
-    <button type="submit" [disabled]="taskName?.hasError('whitespace') || taskName && taskName.hasError('maxlength')" >Add Todo List</button>
-  </form>
-  
-  <div *ngFor="let todos of todo; let i = index">
-    <div class="content">
-      <p>Task Name: {{ todos.taskName.toLowerCase() }} Due Date: {{ todos.dueDate }}</p>
-      <div class="status">{{todos.status }}</div>
+    <div class="alert alert-danger" *ngIf="!dueDate?.valid">
+      Date is required
     </div>
-
-    <button 
-    class="canceled"
-    (click)="CanceledTask(todos,i)"
-    [disabled]="todos.canceled"
-    [disabled] = 'todos.completed'
+    <br /><br />
+    <button
+      type="submit"
+      [disabled]="
+      title?.hasError('whitespace') ||
+        (title && title.hasError('maxlength'))
+      "
     >
-    Cancel
-  </button>
-
-    <button class="completed"
-    (click)="CompletedTask(todos,i)"
-    [disabled] = 'todos.completed'
-    >
-    Complete
-  </button>
-  </div>
+      Add Todo List
+    </button>
+  </form>
  
-  
-  <!--
-        class="todo-input"
-        [(ngModel)]="inputTodo"
-      -->
-    <!--
-    <label class="lbldudate"><strong>Insert Due Date:</strong></label>
-    <input
-      type="date"
-      name="inputDate"
-      class="todo-input"
-      [(ngModel)]="inputDate"
-    />
-    <div class="alert alert-danger" *ngIf="!inputDate">A date is required</div>
-    <input type="submit" value="Add Todo" class="todo-submit" [disabled]='!inputDate' />
-  </form>
-  <div *ngFor="let todo of todos; let i = index" class="todo">
-    <div class="id">{{ i + 1 }}</div>
+  </div>
+  <div *ngFor="let todo of todo; let i = index">
     <div class="content">
-      Task Name: {{ todo.content }} Due Date:
-      {{ todo.duedate ? todo.duedate : "You should insert date" }}
-      <div class="status">
-        {{
-            Status.canceled
-            ? "Canceled"
-            : todo.completed
-            ? "Completed"
-            : "In Progress"
-        }}
-      </div>
+      <p>
+        Task Name: {{ todo.title.toLowerCase() }} Due Date:
+        {{ todo.dueDate }}
+      </p>
+      <div class="status">{{ statusToText(todo.status) }}</div>
     </div>
-    -->
-<!--
+
     <button
       class="canceled"
-      [disabled]="todo.canceled"
-      (click)="disablecancel(i)"
-      [disabled] = 'todo.completed'
+      (click)="UpdateStatus(todo, i, 1)"
+      [disabled]="todo.clicked"
     >
-      Canceled
+      Cancel
     </button>
 
     <button
       class="completed"
-      [disabled]="todo.completed"
-      (click)="disablecomplete(i)"
-      
+      (click)="UpdateStatus(todo, i, 2)"
+      [disabled]="todo.clicked"
     >
-      Completed
+      Complete
     </button>
   </div>
-</div>
--->
+
+  <!-- <br /><br /><br />
+  <table class="table table-hover table-bordered table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Task Name</th>
+        <th scope="col">Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <th scope="row">1</th>
+        <td>{{ tasks.taskName }}</td>
+        <td>{{ task.Title }}</td>
+        <td>{{ task.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
