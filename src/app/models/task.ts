@@ -5,5 +5,5 @@ export interface Task {
   dueDate: string;
   createdDate?: string;
   status: Status;
-  id?: string;
+  id: string;
 }

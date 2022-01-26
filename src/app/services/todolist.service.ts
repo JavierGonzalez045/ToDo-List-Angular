@@ -25,9 +25,16 @@ export class TodolistService {
   }
 
   patchTodo(task: Task): Observable<Task> {
-    return this.http.patch<Task>(this.url, { status: task.status });
+    /*
+    El update del status en la base de datos funciona correctamente,
+    ahora se debe de aplicar correctamente, nosotros hicimos una prueba
+    ingresando el valor manualmente.
+    */
+    // task.id = '29E0EE53-BE1E-4BA9-BFAE-08D9E0F24CBD';
+    // task.status = 2;
+    // debugger;
+    return this.http.patch<Task>(`${this.url}/${task.id}`, {
+      status: task.status,
+    });
   }
 }
-
-// { status: task.status }
-// task.status

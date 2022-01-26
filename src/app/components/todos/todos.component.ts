@@ -38,6 +38,8 @@ export class TodosComponent {
 
   tasks: Task[] = [];
 
+  Id: string = '';
+
   constructor(private fb: FormBuilder, private apiservice: TodolistService) {
     this.getData();
   }
@@ -55,20 +57,18 @@ export class TodosComponent {
   // }
 
   onSum() {
-    const { status, dueDate, taskName: title } = this.profileForm.value;
+    const { status, dueDate, taskName: title, id } = this.profileForm.value;
     const task: Task = {
       status,
       dueDate,
       title,
+      id,
     };
 
     this.apiservice.postTodo(task).subscribe((response) => {
       console.log(response);
+      this.Id = response.id;
       this.getData();
-    });
-
-    this.apiservice.patchTodo(task).subscribe((data) => {
-      console.log(data);
     });
 
     // this.apiservice.patchTodo(task).subscribe((update) => {
@@ -130,7 +130,7 @@ export class TodosComponent {
   }
 
   //---------------------------------------------------------------Buttons---------------------------------------------------------------------
-  CanceledTask(arr: any, index: number) {
+  CanceledTask(arr: any, index: number, task: Task) {
     console.log(arr, index);
 
     this.todo.splice(index, 1, {
@@ -140,14 +140,21 @@ export class TodosComponent {
       completed: true,
       canceled: true,
     });
+    this.apiservice.patchTodo(task).subscribe((data) => {
+      console.log(data);
+    });
   }
   CompletedTask(arr: any, index: number) {
     this.todo.splice(index, 1, {
       taskName: arr.taskName,
       dueDate: arr.dueDate,
       status: Status.completed,
+      // idstatus: (this.status = 2),
       completed: true,
       canceled: false,
+    });
+    this.apiservice.patchTodo(arr).subscribe((data) => {
+      console.log(data);
     });
   }
   statusToText(value: number) {

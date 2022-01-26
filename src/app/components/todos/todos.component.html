@@ -52,7 +52,7 @@
 
     <button
       class="canceled"
-      (click)="CanceledTask(todos, i)"
+      (click)="CanceledTask(todos, i, todos)"
       [disabled]="todos.canceled"
       [disabled]="todos.completed"
     >
@@ -66,24 +66,42 @@
     >
       Complete
     </button>
-  </div>
+    <!-- <br /><br /><br />
 
-  <!-- <br /><br /><br />
-  <table class="table table-hover table-bordered table-sm">
-    <thead>
-      <tr>
-        <th scope="col">Task Name</th>
-        <th scope="col">Due Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let task of tasks">
-        <th scope="row">1</th>
-        <td>{{ tasks.taskName }}</td>
-        <td>{{ task.Title }}</td>
-        <td>{{ task.name }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Task Name</th>
+          <th scope="col">Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">{{ Id }}</th>
+          <td>{{ todos.taskName }}</td>
+          <td>{{ todos.dueDate }}</td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
 </div>
+
+<br /><br /><br />
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID#</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Due Date</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let todos of todo; let i = index">
+    <tr>
+      <th scope="row">{{ todos.id }}</th>
+      <td>{{ todos.taskName }}</td>
+      <td>{{ todos.dueDate }}</td>
+    </tr>
+  </tbody>
+</table>
