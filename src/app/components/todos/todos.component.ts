@@ -37,9 +37,7 @@ export class TodosComponent {
 
   todo: Array<any> = [];
 
- tasks: Task[] = [];
-
-  id!: any; 
+  id: any; 
   
 
   constructor(private fb: FormBuilder, private apiservice: TodolistService) {
@@ -53,25 +51,18 @@ export class TodosComponent {
   }
   onSum() {
     let { status, dueDate, title, id} = this.profileForm.value;
-    let task: Task = {
+    const task: Task = {
       status,
       dueDate,
       title,
       id
     };
-
-   this.apiservice.postTodo(task).subscribe((response) => {
-      console.log('TAREA->',response.id);
-      this.id = response.id;
-      this.getData();  
-    });
-
-    if (this.formatDate(new Date()) <= this.profileForm.value.dueDate) {
+    if (this.formatDate(new Date()) <= task.dueDate) {
       if (this.todo.length === 0) {
-        this.todo = [this.profileForm.value];
+        this.todo = [task];
       } else if (
         this.todo.filter(
-          (data) => data.title === this.profileForm.value.title
+          (data) => data.title === task.title
         ).length > 0
       ) {
         alert('Cannot insert the same task name!');
@@ -83,11 +74,17 @@ export class TodosComponent {
       ) {
         alert('Cannot insert the same task name!');
       } else {
-        this.todo = [...this.todo, this.profileForm.value];
+        this.todo = [...this.todo, task];
       }
     } else {
       alert("Can't enter past dates");
     }
+    this.apiservice.postTodo(task).subscribe((response) => {
+      console.log('TAREA->',response.id);
+      task.id = response.id;
+      this.getData();  
+    });
+
   }
   private formatDate(date: Date) {
     const d = new Date(date);
@@ -98,6 +95,7 @@ export class TodosComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
+  
   //---------------------------------------------------------------Validators---------------------------------------------------------------------
   get title() {
     return this.profileForm.get('title');
@@ -125,8 +123,8 @@ export class TodosComponent {
       id: arr.id,
       clicked: true
     });
-    this.apiservice.patchTodo(arr).subscribe((data) => {
-      console.log(data);
+    this.apiservice.patchTodo(arr,status).subscribe((response) => {
+      console.log(response);
     }); 
   }
   statusToText(value: number) {
