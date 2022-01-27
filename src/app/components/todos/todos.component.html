@@ -1,0 +1,88 @@
+<div class="todos">
+  <form [formGroup]="profileForm" (ngSubmit)="onSum()">
+    <label class="lbltname"><strong>Insert Task Name: </strong></label>
+    <br /><br />
+    <input
+      class="taskBox"
+      id="task-name"
+      type="text"
+      placeholder="Insert task name..."
+      formControlName="title"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="title?.hasError('required') || title?.hasError('whitespace')"
+    >
+      Name is required
+    </div>
+    <div
+      class="alert alert-danger"
+      *ngIf="title && title.hasError('maxlength')"
+    >
+      Name exceed max length
+    </div>
+    <br /><br />
+    <label class="lbldudate"><strong>Insert Due Date:</strong></label>
+    <br /><br />
+    <input id="due-date" type="date" formControlName="dueDate" />
+
+    <div class="alert alert-danger" *ngIf="!dueDate?.valid">
+      Date is required
+    </div>
+    <br /><br />
+    <button
+      type="submit"
+      [disabled]="
+        title?.hasError('whitespace') || (title && title.hasError('maxlength'))
+      "
+    >
+      Add Todo List
+    </button>
+  </form>
+</div>
+<div *ngFor="let todo of todo; let i = index">
+  <div class="content">
+    <p>
+      Task Name: {{ todo.title.toLowerCase() }} Due Date:
+      {{ todo.dueDate }}
+    </p>
+    <div class="status">{{ statusToText(todo.status) }}</div>
+  </div>
+
+  <button
+    class="canceled"
+    (click)="UpdateStatus(todo, i, 1)"
+    [disabled]="todo.clicked"
+  >
+    Cancel
+  </button>
+
+  <button
+    class="completed"
+    (click)="UpdateStatus(todo, i, 2)"
+    [disabled]="todo.clicked"
+  >
+    Complete
+  </button>
+</div>
+
+<br /><br /><br />
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID#</th>
+      <th scope="col">Task Name</th>
+      <th scope="col">Due Date</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let todo of todo; let i = index">
+    <tr>
+      <th scope="row" class="ancho">{{ todo.id }}</th>
+      <td class="ancho">{{ todo.title }}</td>
+      <td class="ancho">{{ todo.dueDate }}</td>
+      <td class="ancho">{{ statusToText(todo.status) }}</td>
+    </tr>
+  </tbody>
+</table>
