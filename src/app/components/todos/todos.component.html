@@ -79,12 +79,12 @@
       <th scope="col">Status</th>
     </tr>
   </thead>
-  <tbody *ngFor="let todo of todo; let i = index">
-    <tr>
-      <th scope="row" class="ancho">{{ todo.id }}</th>
-      <td class="ancho">{{ todo.title }}</td>
-      <td class="ancho">{{ todo.dueDate }}</td>
-      <td class="ancho">{{ statusToText(todo.status) }}</td>
+  <tbody>
+    <tr *ngFor="let task of tableinfo">
+      <th scope="row" class="ancho">{{ task.id }}</th>
+      <td class="ancho">{{ task.title }}</td>
+      <td class="ancho">{{ task.dueDate }}</td>
+      <td class="ancho">{{ statusToText(task.status) }}</td>
     </tr>
   </tbody>
 </table>

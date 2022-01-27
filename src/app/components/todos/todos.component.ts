@@ -37,8 +37,11 @@ export class TodosComponent {
 
   todo: Array<any> = [];
 
+  public tableinfo: Array<any> = [];
+
   constructor(private fb: FormBuilder, private apiservice: TodolistService) {
     this.getData();
+    this.getTable();
   }
 
   getData() {
@@ -46,6 +49,13 @@ export class TodosComponent {
       .getTodolist()
       .subscribe((result: any) => console.log(result));
   }
+
+  getTable() {
+    this.apiservice.getTablelist().subscribe((tableresult: any) => {
+      this.tableinfo = tableresult;
+    });
+  }
+
   onSum() {
     let { status, dueDate, title, id } = this.profileForm.value;
     const task: Task = {
@@ -86,9 +96,7 @@ export class TodosComponent {
       });
     }
     this.apiservice.postTodo(task).subscribe((response) => {
-      console.log('TAREA->', response.id);
       task.id = response.id;
-      console.log(status);
       this.getData();
     });
   }
@@ -129,9 +137,7 @@ export class TodosComponent {
       id: arr.id,
       clicked: true,
     });
-    this.apiservice.patchTodo(arr, status).subscribe((response) => {
-      console.log(response);
-    });
+    this.apiservice.patchTodo(arr, status).subscribe();
   }
   statusToText(value: number) {
     switch (value) {

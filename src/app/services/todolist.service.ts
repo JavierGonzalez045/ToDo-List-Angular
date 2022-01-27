@@ -21,6 +21,11 @@ export class TodolistService {
     let header = new HttpHeaders().set('Type-content', 'aplication/json');
     return this.http.get(this.url, { headers: header });
   }
+
+  getTablelist() {
+    let header = new HttpHeaders().set('Type-content', 'aplication/json');
+    return this.http.get(this.url, { headers: header });
+  }
   postTodo(task: Task): Observable<Task> {
     return this.http.post<Task>(this.url, task);
   }
