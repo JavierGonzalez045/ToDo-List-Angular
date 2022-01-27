@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Task } from '../models/task';
 import { StatusCompleted, Status } from '../models/Status';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -16,18 +15,20 @@ export class TodolistService {
   };
 
   url: string = `${environment.apiURL}/Tasks`;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTodolist() {
     let header = new HttpHeaders().set('Type-content', 'aplication/json');
     return this.http.get(this.url, { headers: header });
   }
   postTodo(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.url, task); 
+    return this.http.post<Task>(this.url, task);
   }
 
-  patchTodo(task: Task, status: Status): Observable<Task> {
-    return this.http.patch<Task>(`${this.url}/${task.id}`, { status: task.status });
+  patchTodo(task: Task, _status: Status): Observable<Task> {
+    return this.http.patch<Task>(`${this.url}/${task.id}`, {
+      status: _status,
+    });
   }
 }
 

@@ -15,6 +15,7 @@ import { Status } from 'src/app/models/Status';
 import { empty } from 'rxjs';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 import { TodolistService } from '../../services/todolist.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-todos',
@@ -35,8 +36,6 @@ export class TodosComponent {
   });
 
   todo: Array<any> = [];
-
-  id: any;
 
   constructor(private fb: FormBuilder, private apiservice: TodolistService) {
     this.getData();
@@ -61,22 +60,35 @@ export class TodosComponent {
       } else if (
         this.todo.filter((data) => data.title === task.title).length > 0
       ) {
-        alert('Cannot insert the same task name!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Cannot insert the same task name!',
+        });
       } else if (
         this.todo.filter(
           (data) => data.title.toUpperCase() === this.profileForm.value.title
         ).length > 0
       ) {
-        alert('Cannot insert the same task name!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Cannot insert the same task name!',
+        });
       } else {
         this.todo = [...this.todo, task];
       }
     } else {
-      alert("Can't enter past dates");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: "Can't enter past dates",
+      });
     }
     this.apiservice.postTodo(task).subscribe((response) => {
       console.log('TAREA->', response.id);
       task.id = response.id;
+      console.log(status);
       this.getData();
     });
   }
