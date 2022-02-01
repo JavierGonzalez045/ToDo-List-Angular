@@ -1,16 +1,19 @@
+
 <div class="todos">
+ 
   <form [formGroup]="profileForm" (ngSubmit)="onSum()">
     <label class="lbltname"><strong>Insert Task Name: </strong></label>
     <br /><br />
     <input
       class="taskBox"
       id="task-name"
-      type="text"
+      type="text" required
       placeholder="Insert task name..."
       formControlName="title"
     />
     <div
       class="alert alert-danger"
+      eve
       *ngIf="title?.hasError('required') || title?.hasError('whitespace')"
     >
       Name is required
@@ -21,6 +24,13 @@
     >
       Name exceed max length
     </div>
+  <div
+    class="alert alert-danger"
+    *ngIf="title && title?.hasError('SameName')"
+  >
+    Cant have same Name
+  </div>
+  
     <br /><br />
     <label class="lbldudate"><strong>Insert Due Date:</strong></label>
     <br /><br />
@@ -34,27 +44,27 @@
       type="submit"
       [disabled]="
       title?.hasError('whitespace') ||
-        (title && title.hasError('maxlength'))
-      "
+        (title && title.hasError('maxlength'))"
     >
       Add Todo List
     </button>
   </form>
- 
-  </div>
   <div *ngFor="let todo of todo; let i = index">
+    
     <div class="content">
+      
       <p>
         Task Name: {{ todo.title.toLowerCase() }} Due Date:
         {{ todo.dueDate }}
       </p>
       <div class="status">{{ statusToText(todo.status) }}</div>
-    </div>
+      
 
     <button
       class="canceled"
       (click)="UpdateStatus(todo, i, 1)"
-      [disabled]="todo.clicked"
+      [disabled]="todo.status == 1 || todo.status == 2"
+      
     >
       Cancel
     </button>
@@ -62,28 +72,10 @@
     <button
       class="completed"
       (click)="UpdateStatus(todo, i, 2)"
-      [disabled]="todo.clicked"
+      [disabled]="todo.status == 1 || todo.status == 2"
     >
       Complete
     </button>
   </div>
-
-  <!-- <br /><br /><br />
-  <table class="table table-hover table-bordered table-sm">
-    <thead>
-      <tr>
-        <th scope="col">Task Name</th>
-        <th scope="col">Due Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let task of tasks">
-        <th scope="row">1</th>
-        <td>{{ tasks.taskName }}</td>
-        <td>{{ task.Title }}</td>
-        <td>{{ task.name }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
+  
+  <br /><br /><br />

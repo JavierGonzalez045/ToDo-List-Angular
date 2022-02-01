@@ -1,5 +1,5 @@
 import { style } from '@angular/animations';
-import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { Content, NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Task } from 'src/app/models/task';
@@ -10,11 +10,18 @@ import {
   Validators,
   ControlContainer,
   ValidationErrors,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { Status } from 'src/app/models/Status';
 import { empty } from 'rxjs';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 import { TodolistService } from '../../services/todolist.service';
+import Swal from 'sweetalert2';
+import { Taskstatus } from '../../models/Status';
+import { catchError } from 'rxjs/operators';
+import { isNull } from '@angular/compiler/src/output/output_ast';
+
 
 @Component({
   selector: 'app-todos',
@@ -36,60 +43,49 @@ export class TodosComponent {
 
 
   todo: Array<any> = [];
-  error!: string;
-  id: any; 
-  
 
   constructor(private fb: FormBuilder, private apiservice: TodolistService) {
     this.getData();
   }
 
   getData() {
+
+
     this.apiservice
       .getTodolist()
-      .subscribe((result: any) =>  {
-      this.todo = result
-    },
-      (error) => {
-        this.error = error.message;
-      });
+      .subscribe((result: any) => {
+        this.todo = result
+      },
+        (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Connection Error',
+          })
+        });
   }
+
   onSum() {
-    let { status, dueDate, title, id} = this.profileForm.value;
+    let { status, dueDate, title, id } = this.profileForm.value;
     const task: Task = {
       status,
       dueDate,
       title,
-      id
+      id,
     };
-    if (this.formatDate(new Date()) <= task.dueDate) {
-      if (this.todo.length === 0) {
-        this.todo = [task];
-      } else if (
-        this.todo.filter(
-          (data) => data.title === task.title
-        ).length > 0
-      ) {
-        return alert('Cannot insert the same task name!');
-      } else if (
-        this.todo.filter(
-          (data) =>
-            data.title.toUpperCase() === this.profileForm.value.title
-        ).length > 0
-      ) {
-        return alert('Cannot insert the same task name!');
-      } else {
-        this.todo = [...this.todo, task];
-      }
-    } else {
-      return alert("Can't enter past dates");
-    }
-    this.apiservice.postTodo(task).subscribe((response) => {
-      console.log('TAREA->',response.id);
-      task.id = response.id;
-      this.getData();  
-    });
 
+    if (this.TodoValidations(task))
+
+      this.apiservice.postTodo(task).subscribe((response) => {
+        console.log('TAREA->', response.id);
+        this.AddDataTodo(task);
+        task.id = response.id;
+      }, (error) => Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Connection Error',
+      })
+      );
   }
   private formatDate(date: Date) {
     const d = new Date(date);
@@ -100,7 +96,13 @@ export class TodosComponent {
     if (day.length < 2) day = '0' + day;
     return [year, month, day].join('-');
   }
-  
+  //-------------------------------------------------------------AddData()----------------------------------------------------------------------------
+  AddDataTodo(task: Task) {
+
+    this.todo = [...this.todo, task];
+
+  }
+
   //---------------------------------------------------------------Validators---------------------------------------------------------------------
   get title() {
     return this.profileForm.get('title');
@@ -113,25 +115,47 @@ export class TodosComponent {
   }
 
   public noWhitespace(control: FormControl) {
-    let isWhitespace = (control.value || '').trim().length === 0;
+    let isWhitespace = (control.value || ' ').trim().length === 0;
     let isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
   }
 
+  public TodoValidations(task: Task) {
+    if (this.todo.filter(
+      (data) => data.title === task.title).length > 0) {
+      return alert('Cannot insert the same task name!');
+    }
+    else if (this.todo.filter(
+      (data) => data.title.toLowerCase() === task.title.toLowerCase()).length > 0) {
+      return alert('Cannot insert the same task name!');
+    }
+    else if (this.formatDate(new Date()) > task.dueDate) {
+      return alert('cant insert past dates');
+    }
+    else {
+      return this.todo;
+    }
+  }
   //---------------------------------------------------------------Buttons-----------------------------------------------------------------------------------------
 
-  UpdateStatus(arr: Task, index: number, status: Status) {
-    this.todo.splice(index, 1, {
-      title: arr.title,
-      dueDate: arr.dueDate,
-      status: status,
-      id: arr.id,
-      clicked: true
-    });
-    this.apiservice.patchTodo(arr,status).subscribe((response) => {
-      console.log(response);
-    }); 
+  UpdateStatus(arr: Task, index: number, state: Status) {
+    this.apiservice.patchTodo(arr, state).subscribe((data) => {
+      console.log(data);
+      this.todo.splice(index, 1, {
+        title: arr.title,
+        dueDate: arr.dueDate,
+        status: state,
+        id: arr.id,
+      });
+    },
+      (error) => Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Connection Error',
+      })
+    );
   }
+
   statusToText(value: number) {
     switch (value) {
       case 0:
