@@ -36,7 +36,7 @@ export class TodosComponent {
 
 
   todo: Array<any> = [];
-
+  error!: string;
   id: any; 
   
 
@@ -47,7 +47,12 @@ export class TodosComponent {
   getData() {
     this.apiservice
       .getTodolist()
-      .subscribe((result: any) => console.log(result));
+      .subscribe((result: any) =>  {
+      this.todo = result
+    },
+      (error) => {
+        this.error = error.message;
+      });
   }
   onSum() {
     let { status, dueDate, title, id} = this.profileForm.value;
@@ -65,19 +70,19 @@ export class TodosComponent {
           (data) => data.title === task.title
         ).length > 0
       ) {
-        alert('Cannot insert the same task name!');
+        return alert('Cannot insert the same task name!');
       } else if (
         this.todo.filter(
           (data) =>
             data.title.toUpperCase() === this.profileForm.value.title
         ).length > 0
       ) {
-        alert('Cannot insert the same task name!');
+        return alert('Cannot insert the same task name!');
       } else {
         this.todo = [...this.todo, task];
       }
     } else {
-      alert("Can't enter past dates");
+      return alert("Can't enter past dates");
     }
     this.apiservice.postTodo(task).subscribe((response) => {
       console.log('TAREA->',response.id);
